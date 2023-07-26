@@ -1,0 +1,26 @@
+version: '3'
+
+services:  
+  # Contacts Microservice
+  rc-contacts:
+      build:
+        context: ./rc-contacts
+        dockerfile: Dockerfile
+      ports:
+        - "9000:9000"
+      volumes:
+        - .:/var/www/html
+      env_file:
+        - ./rc-contacts/.env
+
+  # MySQL database
+  rc-db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=roundcube
+      - MYSQL_DATABASE=roundcube
+      - MYSQL_USER=roundcube
+      - MYSQL_PASSWORD=roundcube
+    ports:
+      - "3306:3306"
+  
