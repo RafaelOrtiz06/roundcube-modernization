@@ -6,15 +6,18 @@ services:
       build:
         context: ./rc-contacts
         dockerfile: Dockerfile
+      depends_on:
+        - rc-db
       ports:
-        - "9000:9000"
+        - "8000:8000"
       volumes:
-        - .:/var/www/html
+        - ./rc-contacts:/var/www/html
       env_file:
         - ./rc-contacts/.env
 
   # MySQL database
   rc-db:
+    container_name: rc-db
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=roundcube
