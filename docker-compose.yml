@@ -15,6 +15,20 @@ services:
       env_file:
         - ./rc-contacts/.env
 
+  # Login Microservice
+  rc-login:
+    build:
+      context: ./rc-login
+      dockerfile: Dockerfile
+    depends_on:
+      - rc-db
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./rc-login:/var/www/html
+    env_file:
+      - ./rc-login/.env
+
   # MySQL database
   rc-db:
     container_name: rc-db
@@ -26,4 +40,20 @@ services:
       - MYSQL_PASSWORD=roundcube
     ports:
       - "3306:3306"
+
+  # Poste.io IMAP server
+  posteio:
+    image: analogic/poste.io:latest
+    container_name: posteio
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+      - "4190:4190"
+    volumes:
+      - ./dovecot.conf:/etc/dovecot/conf.d/99-custom-config.conf
+
+    environment:
+      - "TZ=America/New_York"
   
