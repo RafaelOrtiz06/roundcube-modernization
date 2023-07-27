@@ -5,10 +5,16 @@ FROM php:8.1-cli
 WORKDIR /var/www/html
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y libpq-dev
+RUN apt-get update && apt-get install -y libpq-dev 
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
+
+# Configure IMAp dependencies
+RUN apt-get install -y libc-client-dev libkrb5-dev
+
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl  && docker-php-ext-install imap
+
 
 # Copy the Laravel API files into the container
 COPY . .
