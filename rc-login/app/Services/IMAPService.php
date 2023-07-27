@@ -3,10 +3,12 @@
 namespace App\Services;
 
 use stdClass;
-use App\Http\Requests\Auth\LoginRequest;
 
 use Webklex\IMAP\Client;
 use Webklex\IMAP\Exceptions\ConnectionFailedException;
+
+use App\Http\Requests\Auth\LoginRequest;
+
 
 class IMAPService
 {
@@ -19,6 +21,8 @@ class IMAPService
 
         try {
             $client = $this->generateIMAPConnection($user);
+
+            unset($client->password);
 
             $responseObject->response = $client;
         } catch (ConnectionFailedException $e) {
@@ -36,10 +40,10 @@ class IMAPService
             'port' => env('IMAP_PORT'),
             'encryption' => env('IMAP_ENCRYPTION'),
             'validate_cert' => env('IMAP_VALIDATE_CERT'),
-            'username' => $user->userName,
-            'password' => $user->password,
+            'username' => $user->input('username'),
+            'password' => $user->input('password')
         ]);
 
-        return $client->connect();
+        return $client->connect(1);
     }
 }
