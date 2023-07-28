@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Perform any pre-migration setup here (if needed)
+composer install
 
 # Run Laravel migrations
 php artisan migrate

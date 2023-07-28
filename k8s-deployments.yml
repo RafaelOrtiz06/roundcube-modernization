@@ -53,6 +53,8 @@ spec:
       targetPort: 8000
       nodePort: 31019
 
+###################################
+
 ---
 ###################################
 # INGRESS
@@ -75,10 +77,3 @@ spec:
                 name: rc-login-service
                 port:
                   number: 80
-          # - pathType: Prefix
-          #   path: /contacts
-          #   backend:
-          #     service:
-          #       name: servicio-multiplicacion
-          #       port:
-          #         number: 80

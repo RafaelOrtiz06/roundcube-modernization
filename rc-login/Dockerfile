@@ -15,6 +15,8 @@ RUN apt-get install -y libc-client-dev libkrb5-dev
 
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl  && docker-php-ext-install imap
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy the Laravel API files into the container
 COPY . .
