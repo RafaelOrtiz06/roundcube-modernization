@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-
 use App\Services\IMAPService;
 use App\Http\Requests\Auth\LoginRequest;
 
