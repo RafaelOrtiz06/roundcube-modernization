@@ -53,7 +53,60 @@ spec:
       targetPort: 8000
       nodePort: 31019
 
-###################################
+# ###################################
+# # Contacts Microservice
+# ###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rc-contacts
+  labels:
+    app: rc-contacts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rc-contacts
+  template:
+    metadata:
+      labels:
+        app: rc-contacts
+    spec:
+      containers:
+        - name: rc-contacts
+          image: us-central1-docker.pkg.dev/modernization-393422/rc-login/rc-contacts:modernization
+          ports:
+            - containerPort: 8000
+          # Realizar pull siempre a la imagen
+          imagePullPolicy: Always
+
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: rc-contacts-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 8000
+    type: HTTP
+    requestPath: /contacts
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: rc-contacts-service
+  annotations:
+    cloud.google.com/backend-config: '{"default": "rc-contacts-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: rc-contacts
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      nodePort: 31017
 
 ---
 ###################################
@@ -71,9 +124,16 @@ spec:
     - http:
         paths:
           - pathType: Prefix
-            path: /login
+            path: /imap/login
             backend:
               service:
                 name: rc-login-service
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /contacts
+            backend:
+              service:
+                name: rc-contacts-service
                 port:
                   number: 80
