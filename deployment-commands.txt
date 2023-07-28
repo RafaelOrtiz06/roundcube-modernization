@@ -1,0 +1,8 @@
+# rc-login
+docker build -t us-central1-docker.pkg.dev/modernization-393422/rc-login/rc-login:modernization .
+
+# rc-contacts
+docker build -t us-central1-docker.pkg.dev/modernization-393422/rc-login/rc-contacts:modernization .
+
+# posteio
+docker build -t us-central1-docker.pkg.dev/modernization-393422/rc-login/posteio:modernization .
