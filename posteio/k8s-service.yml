@@ -59,15 +59,15 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: posteio
+  name: posteio-service
 spec:
   type: LoadBalancer
   selector:
-    app: suma
+    app: posteio
   # Declaracion y redireccion del trafico por los puertos
   # En este caso, estamos ocupando el puerto 80 para la conexión HTTP
   # y lo estamos redirigiendo al 3000 de la red virtual del pod
   ports:
     - protocol: TCP
-      port: 143
+      port: 80
       targetPort: 143

@@ -59,11 +59,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: rc-login
+  name: rc-login-service
 spec:
   type: LoadBalancer
   selector:
-    app: suma
+    app: rc-login
   # Declaracion y redireccion del trafico por los puertos
   # En este caso, estamos ocupando el puerto 80 para la conexión HTTP
   # y lo estamos redirigiendo al 3000 de la red virtual del pod

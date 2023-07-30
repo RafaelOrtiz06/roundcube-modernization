@@ -53,9 +53,11 @@ spec:
       targetPort: 8000
       nodePort: 31019
 
-# ###################################
-# # Contacts Microservice
-# ###################################
+---
+###################################
+# Contacts Microservice
+###################################
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -77,7 +79,6 @@ spec:
           image: us-central1-docker.pkg.dev/modernization-393422/rc-login/rc-contacts:modernization
           ports:
             - containerPort: 8000
-          # Realizar pull siempre a la imagen
           imagePullPolicy: Always
 
 ---
@@ -108,7 +109,6 @@ spec:
       targetPort: 8000
       nodePort: 31017
 
----
 ###################################
 # INGRESS
 ###################################
@@ -121,19 +121,19 @@ metadata:
     name: gateway-ingress-8
 spec:
   rules:
-    - http:
-        paths:
-          - pathType: Prefix
-            path: /imap/login
-            backend:
-              service:
-                name: rc-login-service
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: /contacts
-            backend:
-              service:
-                name: rc-contacts-service
-                port:
-                  number: 80
+  - http:
+      paths:
+      - pathType: Prefix
+        path: /imap/login
+        backend:
+          service:
+            name: rc-login-service
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: /contacts
+        backend:
+          service:
+            name: rc-contacts-service
+            port: 
+              number: 80
